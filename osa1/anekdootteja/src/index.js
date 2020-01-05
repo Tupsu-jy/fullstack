@@ -8,10 +8,10 @@ const Viisaus = (props) => {
     )
 }
 
-const Aania = () => {
+const Aania = (props) => {
     //let ad=Math.floor(Math.random()*6)
     return (
-        <p>{edellinen} ääinä: {ary[edellinen]}</p>
+        <p>Ääinä: {ary[props.selected]}</p>
     )
 }
 
@@ -25,33 +25,57 @@ const Nappi = (props) => {
 
     //console.log("asdasdadsad")
     return (
-        <button onClick={() => {props.setteri(ran)}}>böö</button>
+        <button onClick={() => {props.setteri(ran)}}>seuraava</button>
     )
-
-    for(let i=0; i<6; i++){
-        console.log(ary[i]);
-    }
 
 }
 
 const Aanesta = (props) => {
 
     return (
-        <button onClick={() => {ary[props.selected]++}}>aaaaanistaa</button>
+        <button onClick={() => {
+
+            ary[props.selected]++;
+
+            for (let i=0; i<6;  i++){
+                if(ary[props.iso]<ary[i]){
+                    props.isosetteri(i);
+                }
+            }
+        }}>aaaaanistaa</button>
+    )
+}
+
+const Paras = (props) => {
+
+    return (
+        <>
+            <p>{props.ane[props.iso]}</p>
+            <p>has {ary[props.iso]} votes</p>
+        </>
     )
 
+}
 
+const Otsikko = (props) => {
+    return (
+        <h1>{props.text}</h1>
+    )
 }
 
 const App = (props) => {
     const [selected, setSelected] = useState(0)
+    const [iso, setIso] = useState(0)
 
     return (
         <div>
+            <Otsikko text="Päivän anekdootti"/>
             <Nappi setteri={setSelected} selected={selected}/>
-            <Aanesta setteri={setSelected} selected={selected}/>
+            <Aanesta setteri={setSelected} iso={iso} isosetteri={setIso} selected={selected}/>
             <Viisaus ane={props.anecdotes} selected={selected}/>
             <Aania selected={selected}/>
+            <Otsikko text="Eniten ääniä"/>
+            <Paras ane={props.anecdotes} iso={iso}/>
         </div>
     )
 }
