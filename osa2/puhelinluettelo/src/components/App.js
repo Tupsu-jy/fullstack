@@ -50,13 +50,14 @@ const App = () => {
         personService
             .getAll()
             .then(response => {
+                console.log(response)
                 setPersons(response.data)
             })
     }
-
     useEffect(hook, [])
 
-  const [ newName, setNewName ] = useState('')
+    console.log("täällä raas")
+    const [ newName, setNewName ] = useState('')
     const [ newNum, setNewNum ] = useState('')
 
     const Remove = (event) => {
@@ -70,7 +71,6 @@ const App = () => {
                         setPersons(response.data)
                     })
             );
-
     }
 
     const addNote = (event) => {
@@ -88,11 +88,10 @@ const App = () => {
                 .create(noteObject)
                 .then(response => {
                     setPersons(persons.concat(response.data))
-                })
+            })
+                setNewName('')
+                setNewNum('')
         }
-
-        setNewName('')
-        setNewNum('')
 
     }
 
