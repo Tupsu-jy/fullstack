@@ -21,6 +21,18 @@ const People =(props)=>{
     return list;
 }
 
+const Filter =(props)=>{
+    return (
+        <div>
+            <p>filter shown with</p>
+            <input
+            onChange={props.showFiltered}
+            />
+        </div>
+    )
+}  
+
+
 const Add =(props)=>{
 
     return (<form onSubmit={props.addNote}>
@@ -45,6 +57,7 @@ const Add =(props)=>{
 
 const App = () => {
   const [ persons, setPersons] = useState([])
+  const [ filterPersons, setfilterPersons] = useState([])
     console.log("asdasdasd")
     const hook = () => {
         personService
@@ -53,6 +66,8 @@ const App = () => {
                 console.log(response)
                 setPersons(response.data)
             })
+        
+        
     }
     useEffect(hook, [])
 
@@ -89,8 +104,7 @@ const App = () => {
                 .then(response => {
                     setPersons(persons.concat(response.data))
             })
-                setNewName('')
-                setNewNum('')
+ 
         }
 
     }
@@ -105,8 +119,21 @@ const App = () => {
         setNewNum(event.target.value)
     }
 
+    let stringToCheck
+    function checkName(name){
+        
+        return name.name.includes(stringToCheck)
+    }
+
+    const showFiltered = (event) => {
+        stringToCheck=event.target.value
+        setfilterPersons(persons.filter(checkName, event.target.value))
+    }
+
   return (
       <div>
+          <Filter pp={persons} showFiltered={showFiltered}/>
+          <People pp={filterPersons} rp={Remove}/>
         <h2>Phonebook</h2>
           <Add addNote={addNote} handleChange={handleChange} handleChangeNum={handleChangeNum}/>
         <h2>Numbers</h2>
